@@ -1,0 +1,465 @@
+:root {
+    --ig-orange: #f09433;
+    --ig-red: #dc2743;
+    --ig-pink: #e1306c;
+    --ig-purple: #bc1888;
+    --white: #ffffff;
+    --text-dark: #262626;
+    --text-gray: #8e8e8e;
+    --border: #dbdbdb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--text-dark);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Falling Stickers Animation */
+.falling-stickers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.sticker {
+    position: absolute;
+    font-size: 35px;
+    animation: fall linear infinite;
+    opacity: 0;
+}
+
+@keyframes fall {
+    0% {
+        top: -10%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        top: 110%;
+        opacity: 0;
+    }
+}
+
+/* Container for logos */
+.logo-container {
+    display: flex;
+    justify-content: space-between; /* M on left, Momentz on right */
+    align-items: center; /* vertically centers content */
+    padding: 20px 50px;
+    background: linear-gradient(135deg, #f09433, #dc2743, #bc1888); /* vibrant gradient */
+    width: 100%;
+    box-sizing: border-box;
+    height: 150px; /* fixed header height */
+    overflow: visible; /* allow big logo to overflow without cutting */
+}
+
+/* Left Logo (M) */
+.logo-m img {
+    height: 120px; /* adjust size as needed */
+    width: auto;
+    object-fit: contain;
+}
+
+/* Right Logo (Momentz) */
+.logo-momentz img {
+    height: 250px; /* bigger logo */
+    width: auto;
+    object-fit: contain;
+    display: block; /* ensure flex centering works */
+}
+
+
+/* Login Container */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 120px 40px 40px;
+    gap: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Left Section */
+.left-section {
+    flex: 1;
+    max-width: 600px;
+}
+
+.photo-container {
+    width: 100%;
+    height: 750px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+    background: white;
+    position: relative;
+}
+
+.photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease;
+}
+
+/* Right Section */
+.right-section {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-box,
+.signup-box {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(30px);
+    border-radius: 20px;
+    padding: 50px 45px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.app-title {
+    font-size: 36px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 35px;
+    background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Form */
+.auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 18px 20px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s;
+    background: white;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: #e1306c;
+    box-shadow: 0 0 0 4px rgba(225, 48, 108, 0.1);
+}
+
+.auth-form input::placeholder {
+    color: var(--text-gray);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
+    background-size: 200% 200%;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.4s;
+    box-shadow: 0 8px 25px rgba(240, 148, 51, 0.4);
+    animation: gradientShift 3s ease infinite;
+    margin-top: 10px;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(240, 148, 51, 0.5);
+}
+
+.btn-login:active {
+    transform: translateY(-1px);
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.divider-text {
+    padding: 0 18px;
+    color: var(--text-gray);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.forgot-password {
+    text-align: center;
+    display: block;
+    color: #e1306c;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 18px;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: #bc1888;
+    text-decoration: underline;
+}
+
+/* Signup Box */
+.signup-box {
+    padding: 28px 45px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.signup-box p {
+    color: var(--text-dark);
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: #e1306c;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 0;
+    transition: color 0.3s;
+}
+
+.link-btn:hover {
+    color: #bc1888;
+    text-decoration: underline;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 50px 45px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 480px;
+    position: relative;
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-title {
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #f09433, #dc2743);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.modal-subtitle {
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 15px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.lock-icon {
+    width: 100px;
+    height: 100px;
+    border: 3px solid #e1306c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    color: #e1306c;
+}
+
+.lock-icon i {
+    font-size: 48px;
+}
+
+.forgot-text {
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 15px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.terms {
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 13px;
+    margin-top: 25px;
+    line-height: 1.6;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--text-gray);
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: var(--text-dark);
+}
+
+/* Loading */
+.loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    border: 5px solid rgba(225, 48, 108, 0.2);
+    border-top: 5px solid #e1306c;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .login-container {
+        flex-direction: column;
+        gap: 40px;
+        padding-top: 100px;
+    }
+
+    .left-section {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .photo-container {
+        height: 550px;
+    }
+
+    .right-section {
+        width: 100%;
+        max-width: 420px;
+    }
+}
+
+@media (max-width: 600px) {
+    .top-header {
+        padding: 0 20px;
+        height: 70px;
+    }
+
+    .logo-m img {
+        height: 35px;
+    }
+
+    .logo-momentz img {
+        height: 30px;
+    }
+
+    .login-container {
+        padding: 90px 20px 20px;
+    }
+
+    .photo-container {
+        height: 450px;
+    }
+
+    .login-box,
+    .signup-box {
+        padding: 40px 30px;
+    }
+}
