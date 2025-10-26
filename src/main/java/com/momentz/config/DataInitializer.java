@@ -44,12 +44,14 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("✓ Roles initialized");
         }
 
-        // Create admin user
-        if (!userRepository.existsByUsername("admin")) {
-            User admin = new User();
+        // Create or update admin user
+        User admin = userRepository.findByUsername("admin").orElse(null);
+
+        if (admin == null) {
+            // Admin doesn't exist, create it
+            admin = new User();
             admin.setUsername("admin");
             admin.setEmail("admin@momentz.com");
-            admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setFullName("Administrator");
             admin.setBio("Momentz Platform Administrator");
             admin.setIsVerified(true);
@@ -61,13 +63,17 @@ public class DataInitializer implements CommandLineRunner {
                     .orElseThrow(() -> new RuntimeException("Role not found")));
             admin.setRoles(roles);
 
-            userRepository.save(admin);
-
             System.out.println("✓ Admin user created");
-            System.out.println("  Username: admin");
-            System.out.println("  Password: admin123");
+        } else {
+            System.out.println("✓ Admin user already exists, updating password");
         }
 
+        // Always update password
+        admin.setPassword(passwordEncoder.encode("NewStrongPassword123!"));
+        userRepository.save(admin);
+
+        System.out.println("  Username: " + admin.getUsername());
+        System.out.println("  Password: NewStrongPassword123!");
         System.out.println("\n===========================================");
         System.out.println("   DATABASE INITIALIZED SUCCESSFULLY!");
         System.out.println("===========================================\n");

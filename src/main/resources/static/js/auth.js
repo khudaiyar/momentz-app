@@ -119,23 +119,41 @@ if (loginForm) {
             console.log('Response data:', data);
             
             if (response.ok && data.token) {
-                console.log('Login successful!');
+                console.log('========================================');
+                console.log('✅ LOGIN SUCCESSFUL!');
+                console.log('Token received:', data.token);
+                console.log('User ID:', data.id);
+                console.log('Username:', data.username);
+                console.log('========================================');
+
+                // Save to localStorage
                 localStorage.setItem('token', data.token);
-                localStorage.setItem('userId', data.id);
+                localStorage.setItem('userId', data.id.toString());
                 localStorage.setItem('username', data.username);
-                
-                console.log('Stored in localStorage:', {
-                    token: localStorage.getItem('token'),
-                    userId: localStorage.getItem('userId'),
-                    username: localStorage.getItem('username')
-                });
-                
-                showAlert('Login successful! Redirecting...', 'success');
-                
-                setTimeout(() => {
-                    console.log('Redirecting to /home.html');
-                    window.location.href = '/home.html';
-                }, 1000);
+
+                // VERIFY it was saved
+                const savedToken = localStorage.getItem('token');
+                const savedUserId = localStorage.getItem('userId');
+                const savedUsername = localStorage.getItem('username');
+
+                console.log('========================================');
+                console.log('📦 VERIFICATION - Data saved to localStorage:');
+                console.log('Saved Token:', savedToken);
+                console.log('Saved User ID:', savedUserId);
+                console.log('Saved Username:', savedUsername);
+                console.log('========================================');
+
+                if (savedToken && savedUserId && savedUsername) {
+                    showAlert('Login successful! Redirecting...', 'success');
+
+                    setTimeout(() => {
+                        console.log('🚀 NOW REDIRECTING TO HOME...');
+                        window.location.href = '/home.html';
+                    }, 1500);
+                } else {
+                    console.error('❌ FAILED to save to localStorage!');
+                    showAlert('Login error! Please try again.', 'error');
+                }
             } else {
                 console.error('Login failed:', data);
                 showAlert(data.message || 'Invalid username or password');

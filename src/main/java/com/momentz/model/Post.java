@@ -28,7 +28,8 @@ public class Post {
     @Column(length = 2200)
     private String caption;
 
-    @Column(nullable = false)
+    // ✅ FIXED: Changed from VARCHAR(255) to TEXT to store base64 images
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)

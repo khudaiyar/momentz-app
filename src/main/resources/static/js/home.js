@@ -1,11 +1,36 @@
 const API_URL = 'http://localhost:8081/api';
-const token = localStorage.getItem('token');
-const currentUserId = localStorage.getItem('userId');
-const currentUsername = localStorage.getItem('username');
 
-// Check authentication
+// Get authentication data
+let token = localStorage.getItem('token');
+let currentUserId = localStorage.getItem('userId');
+let currentUsername = localStorage.getItem('username');
+
+// Debug logging
+console.log('=================================');
+console.log('🔍 HOME.JS LOADED');
+console.log('Token from localStorage:', token);
+console.log('User ID:', currentUserId);
+console.log('Username:', currentUsername);
+console.log('=================================');
+
+// Simple authentication check - NO redirect yet
 if (!token) {
-    window.location.href = '/index.html';
+    console.log('⚠️ No token found, waiting 1 second...');
+    // Wait a moment then check again
+    setTimeout(() => {
+        token = localStorage.getItem('token');
+        currentUserId = localStorage.getItem('userId');
+        currentUsername = localStorage.getItem('username');
+
+        console.log('🔄 Second check - Token:', token);
+
+        if (!token) {
+            console.error('❌ Still no token, redirecting to login');
+            window.location.href = '/index.html';
+        } else {
+            console.log('✅ Token found on second check!');
+        }
+    }, 1000);
 }
 
 // Theme Toggle Functionality
@@ -121,10 +146,11 @@ async function loadUserProfile() {
     }
 }
 
-// Load feed posts
+// Load feed posts - Shows ALL posts from ALL users
 async function loadFeed() {
     try {
-        const response = await apiCall('/posts/feed?page=0&size=20');
+        // Changed from /posts/feed to /posts/all to show everyone's posts
+        const response = await apiCall('/posts/all?page=0&size=20');
         if (!response) return;
 
         const posts = await response.json();
@@ -137,7 +163,7 @@ async function loadFeed() {
                 <div style="text-align: center; padding: 60px 40px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow);">
                     <i class="fas fa-camera" style="font-size: 60px; color: var(--primary-accent); margin-bottom: 20px;"></i>
                     <h3 style="margin-bottom: 10px; color: var(--text-primary);">No posts yet</h3>
-                    <p style="color: var(--text-secondary);">Start following people or create your first post!</p>
+                    <p style="color: var(--text-secondary);">Be the first to share a moment!</p>
                     <button onclick="document.getElementById('createPostBtn').click()" style="margin-top: 20px; padding: 12px 30px; background: var(--primary-accent); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Create Post</button>
                 </div>
             `;
@@ -166,7 +192,7 @@ function createPostCard(post) {
     card.innerHTML = `
         <div class="post-header">
             <img src="${avatarUrl}" alt="${post.username}" class="post-avatar">
-            <span class="post-username">${post.username}</span>
+            <span class="post-username" style="cursor: pointer;" onclick="window.location.href='/profile.html?user=${post.username}'">${post.username}</span>
             ${post.username === currentUsername ? `<button class="post-options" onclick="deletePost(${post.id})"><i class="fas fa-trash"></i></button>` : ''}
         </div>
         <img src="${post.imageUrl}" alt="Post" class="post-image" onclick="openPostDetail(${post.id})">
@@ -183,7 +209,7 @@ function createPostCard(post) {
                 </button>
             </div>
             <p class="likes-text">${post.likesCount} likes</p>
-            ${post.caption ? `<p class="post-caption"><strong>${post.username}</strong> ${post.caption}</p>` : ''}
+            ${post.caption ? `<p class="post-caption"><strong style="cursor: pointer;" onclick="window.location.href='/profile.html?user=${post.username}'">${post.username}</strong> ${post.caption}</p>` : ''}
             ${post.commentsCount > 0 ? `<p class="view-comments" onclick="openPostDetail(${post.id})">View all ${post.commentsCount} comments</p>` : ''}
             <p class="time-text">${timeAgo}</p>
         </div>
@@ -195,6 +221,7 @@ function createPostCard(post) {
 
     return card;
 }
+
 
 // Toggle like
 async function toggleLike(postId, button) {
@@ -527,8 +554,41 @@ profileBtn.addEventListener('click', () => {
 
 document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    showAlert('Profile update feature coming soon! (Backend endpoint needed)');
-    editProfileModal.style.display = 'none';
+
+    const fullName = document.getElementById('editFullName').value.trim();
+    const bio = document.getElementById('editBio').value.trim();
+    const website = document.getElementById('editWebsite').value.trim();
+    const profilePicture = document.getElementById('editProfilePicture').value.trim();
+
+    showLoading();
+
+    try {
+        const updateData = {
+            fullName: fullName || null,
+            bio: bio || null,
+            website: website || null,
+            profilePicture: profilePicture || null
+        };
+
+        const response = await apiCall('/users/update', {
+            method: 'PUT',
+            body: JSON.stringify(updateData)
+        });
+
+        if (response && response.ok) {
+            showAlert('Profile updated successfully!');
+            editProfileModal.style.display = 'none';
+            await loadUserProfile();
+        } else {
+            const error = await response.json();
+            showAlert(error.message || 'Failed to update profile', 'error');
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        showAlert('Failed to update profile', 'error');
+    } finally {
+        hideLoading();
+    }
 });
 
 // Close modals
@@ -552,31 +612,85 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
     }
 });
 
-// Load suggestions
-function loadSuggestions() {
-    const suggestions = [
-        { username: 'john_doe', fullName: 'John Doe', id: 999 },
-        { username: 'jane_smith', fullName: 'Jane Smith', id: 998 },
-        { username: 'mike_wilson', fullName: 'Mike Wilson', id: 997 }
-    ];
+// Load real user suggestions from database
+async function loadSuggestions() {
+    try {
+        const response = await apiCall('/users/suggestions?limit=5');
+        if (!response) return;
 
-    const container = document.getElementById('suggestionsContainer');
-    container.innerHTML = '';
+        const suggestions = await response.json();
+        const container = document.getElementById('suggestionsContainer');
+        container.innerHTML = '';
 
-    suggestions.forEach(user => {
-        const div = document.createElement('div');
-        div.className = 'suggestion-item';
-        const avatar = `https://ui-avatars.com/api/?name=${user.username}&background=0095f6&color=fff&size=80`;
-        div.innerHTML = `
-            <img src="${avatar}" alt="${user.username}">
-            <div class="suggestion-info">
-                <strong>${user.username}</strong>
-                <span>${user.fullName}</span>
-            </div>
-            <button class="follow-btn">Follow</button>
-        `;
-        container.appendChild(div);
-    });
+        if (suggestions.length === 0) {
+            container.innerHTML = `
+                <p style="text-align: center; color: var(--text-secondary); padding: 20px; font-size: 14px;">
+                    No suggestions yet. Invite your friends to join!
+                </p>
+            `;
+            return;
+        }
+
+        suggestions.forEach(user => {
+            const div = document.createElement('div');
+            div.className = 'suggestion-item';
+            const avatar = user.profilePicture || `https://ui-avatars.com/api/?name=${user.username}&background=0095f6&color=fff&size=80`;
+            div.innerHTML = `
+                    <img src="${avatar}" alt="${user.username}">
+                    <div class="suggestion-info">
+                        <strong>${user.username}</strong>
+                        <span>${user.fullName || 'New user'}</span>
+                    </div>
+                    <button class="follow-btn" onclick="followUser(${user.id}, this)">Follow</button>
+                `;
+            container.appendChild(div);
+        });
+    } catch (error) {
+        console.error('Error loading suggestions:', error);
+    }
+}
+
+// Follow user function - DEBUG VERSION
+async function followUser(userId, button) {
+    console.log('=== FOLLOW USER START ===');
+    console.log('User ID to follow:', userId);
+    console.log('Button:', button);
+    console.log('Token:', localStorage.getItem('token'));
+
+    try {
+        console.log('Calling API: /users/follow/' + userId);
+
+        const response = await apiCall(`/users/follow/${userId}`, {
+            method: 'POST'
+        });
+
+        console.log('Response:', response);
+        console.log('Response status:', response ? response.status : 'null');
+        console.log('Response ok:', response ? response.ok : 'null');
+
+        if (response && response.ok) {
+            const data = await response.json();
+            console.log('Success data:', data);
+
+            button.textContent = 'Following';
+            button.style.background = 'var(--bg-secondary)';
+            button.style.color = 'var(--text-primary)';
+            button.disabled = true;
+            showAlert('Following!');
+        } else {
+            const errorData = await response.json();
+            console.error('Error data:', errorData);
+            showAlert(errorData.message || 'Failed to follow user', 'error');
+        }
+    } catch (error) {
+        console.error('=== EXCEPTION ===');
+        console.error('Error type:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Full error:', error);
+        showAlert('Failed to follow user: ' + error.message, 'error');
+    }
+
+    console.log('=== FOLLOW USER END ===');
 }
 
 // Utility: Get time ago

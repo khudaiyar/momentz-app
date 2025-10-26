@@ -77,14 +77,14 @@ public class WebSecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints - no authentication required
+                        // Public endpoints - HTML pages & static resources
                         .requestMatchers(
                                 "/",
                                 "/index.html",
                                 "/login.html",
-                                "/profile.html",
-                                "/home.html",
-                                "/api/auth/**",
+                                "/home.html",           // ← Keep this PUBLIC
+                                "/profile.html",        // ← Keep this PUBLIC
+                                "/api/auth/**",         // Login & Register API
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
@@ -96,8 +96,12 @@ public class WebSecurityConfig {
                                 "/*.txt",
                                 "/*.json"
                         ).permitAll()
-                        // All other endpoints require JWT authentication
-                        .anyRequest().authenticated()
+
+                        // ALL API ENDPOINTS (except /api/auth/**) require JWT
+                        .requestMatchers("/api/**").authenticated()
+
+                        // Everything else is public
+                        .anyRequest().permitAll()
                 );
 
         http.authenticationProvider(authenticationProvider());

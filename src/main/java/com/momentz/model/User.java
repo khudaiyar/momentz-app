@@ -1,5 +1,6 @@
 package com.momentz.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -48,6 +49,7 @@ public class User {
     @Size(max = 500)
     private String bio;
 
+    @Column(columnDefinition = "TEXT")
     private String profilePicture;
 
     private String website;
@@ -66,20 +68,25 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Post> posts = new HashSet<>();
 
-    @ManyToMany
+    // ✅ FIXED: Simple unidirectional ManyToMany - Users I'm following
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "user_followers",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "follower_id")
+            name = "user_follows",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
     )
-    private Set<User> followers = new HashSet<>();
-
-    @ManyToMany(mappedBy = "followers")
+    @JsonIgnore
     private Set<User> following = new HashSet<>();
 
-    @ManyToMany
+    // ✅ FIXED: Users who follow me (calculated from the other side)
+    @ManyToMany(mappedBy = "following", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
+    private Set<User> followers = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -87,11 +94,13 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    // ✅ Add this lightweight constructor for easy registration
+    // Lightweight constructor for registration
     public User(String username, String email, String password, String fullName) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.fullName = fullName;
+        this.isPrivate = false;
+        this.isVerified = false;
     }
 }
