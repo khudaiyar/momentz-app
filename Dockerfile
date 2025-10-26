@@ -1,17 +1,25 @@
-# Use Java 21 base image
+# Use Java 21 JDK base image
 FROM eclipse-temurin:21-jdk-jammy
 
-# Argument for JAR file
-ARG JAR_FILE=target/*.jar
+# Set working directory
+WORKDIR /app
 
-# Copy JAR file
-COPY ${JAR_FILE} /app.jar
+# Copy Maven wrapper and pom.xml
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
 
-# Set environment variables
-ENV PORT=8081
+# Copy source code
+COPY src src
+
+# Build the JAR
+RUN ./mvnw clean package
+
+# Copy the JAR to root
+RUN cp target/*.jar /app.jar
 
 # Expose port
 EXPOSE 8081
 
-# Run JAR
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Run the JAR
+CMD ["java", "-jar", "/app.jar"]
