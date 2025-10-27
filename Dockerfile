@@ -1,4 +1,4 @@
-# Use Java 21
+# Use Java 21 JDK
 FROM eclipse-temurin:21-jdk-jammy
 
 # Set working directory
@@ -10,17 +10,17 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-# Give execute permission to mvnw (important!)
+# Give execute permission to Maven wrapper
 RUN chmod +x mvnw
 
-# Build the project
+# Build the project and skip tests for faster build
 RUN ./mvnw clean package -DskipTests
 
-# Copy the built JAR file to the container
+# Copy the built JAR to the container root
 RUN cp target/*.jar app.jar
 
-# Expose Render port
+# Expose dynamic port (Render provides $PORT)
 EXPOSE 8081
 
-# Run the app
-CMD ["java", "-jar", "app.jar"]
+# Start the app using the dynamic port
+CMD ["sh", "-c", "java -Dserver.port=$PORT -jar app.jar"]
