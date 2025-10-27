@@ -1,20 +1,26 @@
+# Use Java 21
 FROM eclipse-temurin:21-jdk-jammy
+
+# Set working directory
 WORKDIR /app
 
-# Copy project files
+# Copy Maven wrapper and project files
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-# Give mvnw execute permission
+# Give execute permission to mvnw (important!)
 RUN chmod +x mvnw
 
-# Build the JAR inside Docker
-RUN ./mvnw clean package
+# Build the project
+RUN ./mvnw clean package -DskipTests
 
-# Copy the JAR to root
-RUN cp target/*.jar /app.jar
+# Copy the built JAR file to the container
+RUN cp target/*.jar app.jar
 
+# Expose Render port
 EXPOSE 8081
-CMD ["java", "-jar", "/app.jar"]
+
+# Run the app
+CMD ["java", "-jar", "app.jar"]
