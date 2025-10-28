@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:8081/api';
+const API_URL = "https://momentz-iq45.onrender.com/api";
+
 
 // Get authentication data
 let token = localStorage.getItem('token');
