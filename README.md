@@ -1,18 +1,23 @@
-🎨 Momentz - Share Your Moments
+ Momentz - Share Your Moments
 <img width="2461" height="1221" alt="Momentz" src="https://github.com/user-attachments/assets/12dd3de2-3863-4bce-a1e9-d060e8633ab9" />
 
+---
 
 A modern, Instagram-inspired social media platform built from scratch. Share photos, connect with people, and capture life's moments in a clean, distraction-free space.
-🌟 Why "Momentz"?
+ Why "Momentz"?
 Ever take a photo and think "this moment is perfect"? That's what this is about. I built Momentz because I wanted a social platform that felt real - no algorithms pushing sponsored content, no endless scrolling through stuff you don't care about. Just moments. Real moments from real people.
 The "z" instead of "s"? Makes it feel more personal. More unique. More ours.
 
-💡 The Story
+---
+
+The Story
 I started building this around October 2024. I was learning Spring Boot and got tired of following tutorials that built yet another REST API for a bookstore. I wanted something challenging, something I'd actually use.
 First week was smooth. Authentication worked, users could register, everything was great. Then I tried to add posts and my database couldn't handle the images. Turns out VARCHAR(255) can't store a 40KB base64 image. Who knew? (Everyone. Everyone knew. I learned the hard way.)
 The follow feature took me a whole month to fix. Not kidding. The relationship kept creating circular references. Transactions rolled back randomly. I changed the code 20 times. Finally figured out it was a ManyToMany mapping issue. That fix felt better than my first "Hello World".
 
-✨ Features
+---
+
+ Features
 
 User Authentication - Sign up, log in, JWT tokens
 Create Posts - Upload photos with captions (drag & drop supported!)
@@ -23,7 +28,7 @@ User Suggestions - Discover new people
 Dark/Light Mode - Toggle themes
 Responsive Design - Works on any device
 
-🛠️ Built With
+ Built With
 Backend:
 
 Spring Boot 3.x (Java 21)
@@ -41,7 +46,9 @@ Font Awesome
 
 Why no React? Because sometimes you don't need a framework. I wanted to understand how everything works under the hood.
 
-📂 Project Structure
+---
+
+ Project Structure
 momentz/
 │
 ├── backend/
@@ -65,7 +72,9 @@ momentz/
     ├── js/                      # Frontend logic
     └── images/                  # Logos
 
-💭 What I Learned
+---
+
+ What I Learned
 Technical Stuff:
 
 Spring Boot architecture
@@ -74,6 +83,7 @@ JPA relationships (ManyToMany is tricky!)
 REST API design
 Database schema design
 
+---
 
 Life Lessons:
 
@@ -83,6 +93,7 @@ Sometimes you need to drop the database and start fresh
 Debugging for hours makes you better
 Stack Overflow is your best friend
 
+---
 
 Biggest Challenges:
 
@@ -90,8 +101,9 @@ Follow feature - Took a month. ManyToMany mapping was wrong.
 Image storage - VARCHAR(255) too small. Changed to TEXT.
 Token validation - Fixed localStorage handling in frontend.
 
+---
 
-🚧 Known Issues
+ Known Issues
 
 Images stored as base64 (large database size)
 H2 database resets on restart
@@ -99,8 +111,9 @@ No image compression yet
 No direct messaging
 No notifications
 
-
-🔮 Future Plans
+---
+ 
+Future Plans
 
  Image compression & file storage
  Switch to MySQL
@@ -110,19 +123,18 @@ No notifications
  Video support
  Mobile app
 
-🙏 Thanks To
+---
+
+Thanks To
 
 Stack Overflow community
-
 Spring Boot documentation
-
 Coffee (lots of it)
 
-
-Built with ❤️ and Spring Boot
-
+---
 
 "First, solve the problem. Then, write the code." – John Johnson﻿# Momentz App
+
 
 
 
