@@ -6,10 +6,12 @@ A modern, Instagram-inspired social media platform built from scratch. Share pho
 🌟 Why "Momentz"?
 Ever take a photo and think "this moment is perfect"? That's what this is about. I built Momentz because I wanted a social platform that felt real - no algorithms pushing sponsored content, no endless scrolling through stuff you don't care about. Just moments. Real moments from real people.
 The "z" instead of "s"? Makes it feel more personal. More unique. More ours.
+
 💡 The Story
 I started building this around October 2024. I was learning Spring Boot and got tired of following tutorials that built yet another REST API for a bookstore. I wanted something challenging, something I'd actually use.
 First week was smooth. Authentication worked, users could register, everything was great. Then I tried to add posts and my database couldn't handle the images. Turns out VARCHAR(255) can't store a 40KB base64 image. Who knew? (Everyone. Everyone knew. I learned the hard way.)
 The follow feature took me a whole month to fix. Not kidding. The relationship kept creating circular references. Transactions rolled back randomly. I changed the code 20 times. Finally figured out it was a ManyToMany mapping issue. That fix felt better than my first "Hello World".
+
 ✨ Features
 
 User Authentication - Sign up, log in, JWT tokens
@@ -38,6 +40,7 @@ HTML5/CSS3
 Font Awesome
 
 Why no React? Because sometimes you don't need a framework. I wanted to understand how everything works under the hood.
+
 📂 Project Structure
 momentz/
 │
@@ -61,6 +64,7 @@ momentz/
     ├── css/                     # Styles
     ├── js/                      # Frontend logic
     └── images/                  # Logos
+
 💭 What I Learned
 Technical Stuff:
 
@@ -70,6 +74,7 @@ JPA relationships (ManyToMany is tricky!)
 REST API design
 Database schema design
 
+
 Life Lessons:
 
 @Transactional solves half your database problems
@@ -78,11 +83,13 @@ Sometimes you need to drop the database and start fresh
 Debugging for hours makes you better
 Stack Overflow is your best friend
 
+
 Biggest Challenges:
 
 Follow feature - Took a month. ManyToMany mapping was wrong.
 Image storage - VARCHAR(255) too small. Changed to TEXT.
 Token validation - Fixed localStorage handling in frontend.
+
 
 🚧 Known Issues
 
@@ -91,6 +98,7 @@ H2 database resets on restart
 No image compression yet
 No direct messaging
 No notifications
+
 
 🔮 Future Plans
 
@@ -105,10 +113,13 @@ No notifications
 🙏 Thanks To
 
 Stack Overflow community
+
 Spring Boot documentation
+
 Coffee (lots of it)
 
 
 Built with ❤️ and Spring Boot
 "First, solve the problem. Then, write the code." – John Johnson﻿# Momentz App
+
 
