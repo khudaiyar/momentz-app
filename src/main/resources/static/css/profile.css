@@ -513,3 +513,79 @@
         gap: 20px;
     }
 }
+
+/* Mobile & tablet responsiveness */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    header, .navbar, .profile-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #profilePostsGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .post-grid-item img {
+        width: 100%;
+        height: auto;
+    }
+
+    .modal-content {
+        width: 95%;
+        max-width: 400px;
+    }
+
+    .upload-area {
+        padding: 20px;
+    }
+
+    .tab-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    #profileStats {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    #settingsModal, #editProfileModal, #createPostModal {
+        padding: 15px;
+    }
+
+    .btn, button {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}
+
+/* Make all images and videos responsive */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Touch-friendly buttons */
+button, .tab-btn {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.modal .close {
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    padding: 4px;
+}
+
+/* Smooth mobile scrolling */
+body {
+    -webkit-overflow-scrolling: touch;
+}

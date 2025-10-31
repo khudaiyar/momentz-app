@@ -256,6 +256,69 @@ if (localStorage.getItem('token')) {
     window.location.href = '/home.html';
 }
 
+// ======================
+// MOBILE EXPERIENCE FIXES
+// ======================
+
+// Ensure inputs stay visible when keyboard opens
+document.querySelectorAll('input').forEach(input => {
+  input.addEventListener('focus', () => {
+    setTimeout(() => {
+      input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  });
+});
+
+// Adjust alert for mobile
+const originalShowAlert = showAlert;
+showAlert = function(message, type = 'error') {
+  const alertDiv = document.createElement('div');
+  alertDiv.style.cssText = `
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    padding: 16px 22px;
+    background: ${type === 'error' ? '#e74c3c' : 'linear-gradient(135deg, #f09433, #dc2743)'};
+    color: white;
+    border-radius: 14px;
+    z-index: 9999;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  `;
+  alertDiv.textContent = message;
+  document.body.appendChild(alertDiv);
+  setTimeout(() => alertDiv.remove(), 3000);
+};
+
+// Better modal handling for mobile
+window.addEventListener('resize', () => {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(m => {
+    if (window.innerWidth < 768) {
+      m.style.alignItems = 'flex-start';
+      m.style.paddingTop = '60px';
+    } else {
+      m.style.alignItems = 'center';
+      m.style.paddingTop = '0';
+    }
+  });
+});
+
+// On mobile, center content after opening modal
+const modals = document.querySelectorAll('.modal');
+modals.forEach(modal => {
+  modal.addEventListener('transitionend', () => {
+    if (window.innerWidth < 768 && modal.style.display === 'block') {
+      window.scrollTo(0, 0);
+    }
+  });
+});
+
+
 // Add CSS animations
 const style = document.createElement('style');
 style.textContent = `

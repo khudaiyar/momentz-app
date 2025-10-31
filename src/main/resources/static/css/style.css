@@ -463,3 +463,81 @@ body {
         padding: 40px 30px;
     }
 }
+
+/* Mobile Optimization */
+@media (max-width: 1024px) {
+    .login-container {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+    }
+
+    .left-section {
+        display: none; /* Hide background photo on tablets/phones */
+    }
+
+    .right-section {
+        width: 100%;
+        padding: 20px;
+        justify-content: center;
+    }
+
+    .login-box {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .app-title {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+    }
+
+    .auth-form input {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .btn-login {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 12px;
+    }
+
+    .login-box h1 {
+        font-size: 1.4rem;
+    }
+
+    .signup-box p {
+        font-size: 0.9rem;
+    }
+
+    .auth-form input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .btn-login {
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 16px;
+    }
+}
