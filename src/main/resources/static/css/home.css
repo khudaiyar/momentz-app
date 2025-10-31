@@ -1058,3 +1058,58 @@ body {
     font-size: 14px;
     cursor: pointer;
     transition:
+
+/* ========== MOBILE FIXES ========== */
+@media (max-width: 480px) {
+    .navbar {
+        height: 54px;
+    }
+
+    .nav-logo {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .nav-icon {
+        font-size: 20px;
+        padding: 8px;
+    }
+
+    .main-content {
+        margin-top: 54px;
+        padding: 0;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .feed-section {
+        width: 100%;
+    }
+
+    .post-card,
+    .stories-container {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .search-bar {
+        display: none;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+
+    .detail-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .detail-image {
+        height: 400px;
+    }
+}

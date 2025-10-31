@@ -513,3 +513,63 @@
         gap: 20px;
     }
 }
+
+/* ========== MOBILE FIXES ========== */
+@media (max-width: 480px) {
+    .profile-container {
+        margin-top: 60px;
+        padding: 20px 12px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        gap: 20px;
+        padding-bottom: 24px;
+    }
+
+    .profile-pic-large {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-top h2 {
+        font-size: 22px;
+    }
+
+    .btn-edit {
+        font-size: 13px;
+        padding: 6px 16px;
+    }
+
+    .profile-stats {
+        gap: 25px;
+        font-size: 14px;
+    }
+
+    .profile-posts {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+    }
+
+    .post-grid-item {
+        border-radius: 0;
+    }
+
+    .profile-tabs {
+        gap: 20px;
+    }
+
+    .tab-btn {
+        font-size: 11px;
+        padding: 12px 0;
+    }
+
+    .edit-modal {
+        width: 95%;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+}

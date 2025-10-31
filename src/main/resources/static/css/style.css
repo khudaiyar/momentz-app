@@ -64,31 +64,28 @@ body {
 /* Container for logos */
 .logo-container {
     display: flex;
-    justify-content: space-between; /* M on left, Momentz on right */
-    align-items: center; /* vertically centers content */
+    justify-content: space-between;
+    align-items: center;
     padding: 20px 50px;
-    background: linear-gradient(135deg, #f09433, #dc2743, #bc1888); /* vibrant gradient */
+    background: linear-gradient(135deg, #f09433, #dc2743, #bc1888);
     width: 100%;
     box-sizing: border-box;
-    height: 150px; /* fixed header height */
-    overflow: visible; /* allow big logo to overflow without cutting */
+    height: 150px;
+    overflow: visible;
 }
 
-/* Left Logo (M) */
 .logo-m img {
-    height: 120px; /* adjust size as needed */
+    height: 120px;
     width: auto;
     object-fit: contain;
 }
 
-/* Right Logo (Momentz) */
 .logo-momentz img {
-    height: 250px; /* bigger logo */
+    height: 250px;
     width: auto;
     object-fit: contain;
-    display: block; /* ensure flex centering works */
+    display: block;
 }
-
 
 /* Login Container */
 .login-container {
@@ -288,6 +285,7 @@ body {
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(8px);
     animation: fadeIn 0.3s;
+    overflow-y: auto;
 }
 
 @keyframes fadeIn {
@@ -413,7 +411,11 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive */
+/* ========================================
+   MOBILE RESPONSIVE - PROFESSIONAL VERSION
+   ======================================== */
+
+/* Tablets and below */
 @media (max-width: 1024px) {
     .login-container {
         flex-direction: column;
@@ -436,31 +438,234 @@ body {
     }
 }
 
-@media (max-width: 600px) {
-    .top-header {
-        padding: 0 20px;
-        height: 70px;
+/* Mobile Devices */
+@media (max-width: 768px) {
+    .logo-container {
+        padding: 15px 25px;
+        height: 100px;
     }
 
     .logo-m img {
-        height: 35px;
+        height: 60px;
     }
 
     .logo-momentz img {
-        height: 30px;
+        height: 120px;
     }
 
     .login-container {
-        padding: 90px 20px 20px;
+        padding: 120px 20px 40px;
+        gap: 30px;
     }
 
-    .photo-container {
-        height: 450px;
+    .left-section {
+        display: none; /* Hide photo showcase on mobile for better UX */
+    }
+
+    .right-section {
+        width: 100%;
+        max-width: 100%;
     }
 
     .login-box,
     .signup-box {
-        padding: 40px 30px;
+        padding: 35px 28px;
+        border-radius: 16px;
+    }
+
+    .app-title {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+
+    .auth-form input {
+        padding: 16px 18px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    .btn-login {
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    .divider {
+        margin: 20px 0;
+    }
+
+    .modal-content {
+        margin: 10% auto;
+        padding: 35px 28px;
+        width: 92%;
+        max-width: 400px;
+    }
+
+    .modal-title {
+        font-size: 24px;
+    }
+
+    .modal-subtitle,
+    .forgot-text {
+        font-size: 14px;
+    }
+
+    .lock-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+
+    .lock-icon i {
+        font-size: 36px;
     }
 }
 
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    .logo-container {
+        padding: 12px 20px;
+        height: 80px;
+    }
+
+    .logo-m img {
+        height: 45px;
+    }
+
+    .logo-momentz img {
+        height: 90px;
+    }
+
+    .login-container {
+        padding: 100px 16px 30px;
+    }
+
+    .login-box,
+    .signup-box {
+        padding: 28px 22px;
+    }
+
+    .app-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .auth-form input {
+        padding: 14px 16px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .btn-login {
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    .divider-text {
+        font-size: 13px;
+        padding: 0 14px;
+    }
+
+    .forgot-password {
+        font-size: 13px;
+        margin-top: 15px;
+    }
+
+    .signup-box {
+        padding: 22px;
+        font-size: 14px;
+    }
+
+    .link-btn {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        padding: 28px 20px;
+        border-radius: 20px;
+    }
+
+    .modal-title {
+        font-size: 22px;
+    }
+
+    .close {
+        font-size: 28px;
+        right: 15px;
+        top: 15px;
+    }
+
+    .terms {
+        font-size: 12px;
+    }
+}
+
+/* Landscape Mode on Mobile */
+@media (max-width: 812px) and (orientation: landscape) {
+    .login-container {
+        padding: 80px 20px 20px;
+    }
+
+    .logo-container {
+        height: 70px;
+        padding: 10px 20px;
+    }
+
+    .logo-m img {
+        height: 40px;
+    }
+
+    .logo-momentz img {
+        height: 70px;
+    }
+
+    .login-box {
+        padding: 25px 28px;
+    }
+
+    .app-title {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+
+    .auth-form {
+        gap: 10px;
+    }
+
+    .auth-form input {
+        padding: 12px 16px;
+    }
+
+    .btn-login {
+        padding: 12px;
+        margin-top: 6px;
+    }
+
+    .divider {
+        margin: 15px 0;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode support for devices that prefer it */
+@media (prefers-color-scheme: dark) {
+    /* Add if needed */
+}
+
+/* High resolution displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo-m img,
+    .logo-momentz img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
