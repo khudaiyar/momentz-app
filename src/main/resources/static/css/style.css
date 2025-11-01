@@ -463,9 +463,20 @@ body {
         min-height: auto;
     }
 
-    /* Hide photo showcase on mobile for cleaner UX */
-    .left-section {
-        display: none;
+        .left-section {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .photo-container {
+            height: 300px;
+            max-width: 350px;
+            margin: 0 auto;
+            border-radius: 20px;
+        }
+
+
     }
 
     .right-section {

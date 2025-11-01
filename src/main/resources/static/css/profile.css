@@ -756,3 +756,35 @@
         font-size: 16px;
     }
 }
+
+@media (max-width: 480px) {
+    /* ... existing mobile CSS ... */
+
+    /* FIX: Make modal scrollable and show Save button */
+    .edit-modal {
+        max-height: 95vh;
+        overflow-y: auto;
+        margin: 2.5vh auto;
+    }
+
+    .edit-modal form {
+        padding: 18px 18px 80px; /* Extra padding at bottom */
+    }
+
+    .form-actions {
+        position: sticky;
+        bottom: 0;
+        background: var(--bg-secondary);
+        padding: 12px 0;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-color);
+        z-index: 10;
+    }
+
+    .btn-save,
+    .btn-cancel {
+        padding: 13px !important;
+        font-size: 15px !important;
+        border-radius: 8px;
+    }
+}
