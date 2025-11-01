@@ -514,7 +514,90 @@
     }
 }
 
-/* ========== MOBILE FIXES ========== */
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .profile-container {
+        margin-top: 70px;
+        padding: 25px 16px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        gap: 25px;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 30px;
+    }
+
+    .profile-pic-large {
+        width: 110px;
+        height: 110px;
+    }
+
+    .change-photo-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .profile-info-section {
+        width: 100%;
+    }
+
+    .profile-top {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .profile-top h2 {
+        font-size: 24px;
+        width: 100%;
+    }
+
+    .btn-edit {
+        flex: 1;
+        min-width: 140px;
+    }
+
+    .profile-stats {
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .stat-item {
+        font-size: 15px;
+    }
+
+    .profile-bio {
+        max-width: 100%;
+    }
+
+    .profile-tabs {
+        gap: 35px;
+    }
+
+    .profile-posts {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px;
+    }
+
+    .post-grid-item {
+        border-radius: 0;
+    }
+
+    .edit-modal {
+        max-width: 95%;
+    }
+
+    .edit-modal form {
+        padding: 20px;
+    }
+}
+
 @media (max-width: 480px) {
     .profile-container {
         margin-top: 60px;
@@ -522,37 +605,60 @@
     }
 
     .profile-header {
-        flex-direction: column;
         gap: 20px;
         padding-bottom: 24px;
     }
 
     .profile-pic-large {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
+    }
+
+    .change-photo-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
     }
 
     .profile-top h2 {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .btn-edit {
         font-size: 13px;
-        padding: 6px 16px;
+        padding: 7px 18px;
+    }
+
+    .btn-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
     }
 
     .profile-stats {
         gap: 25px;
+    }
+
+    .stat-item {
         font-size: 14px;
+        flex-direction: column;
+        gap: 4px;
     }
 
-    .profile-posts {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2px;
+    .stat-number {
+        font-size: 16px;
     }
 
-    .post-grid-item {
-        border-radius: 0;
+    .stat-label {
+        font-size: 13px;
+    }
+
+    .profile-bio h3 {
+        font-size: 15px;
+    }
+
+    .profile-bio p {
+        font-size: 14px;
     }
 
     .profile-tabs {
@@ -561,15 +667,92 @@
 
     .tab-btn {
         font-size: 11px;
-        padding: 12px 0;
+        padding: 14px 0;
+        letter-spacing: 0.5px;
+    }
+
+    .tab-btn i {
+        font-size: 12px;
+    }
+
+    .profile-posts {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+    }
+
+    .empty-state {
+        padding: 60px 20px;
+    }
+
+    .empty-state i {
+        font-size: 60px;
+    }
+
+    .empty-state h3 {
+        font-size: 22px;
+    }
+
+    .empty-state p {
+        font-size: 14px;
+    }
+
+    .empty-state button {
+        padding: 10px 24px;
+        font-size: 14px;
     }
 
     .edit-modal {
-        width: 95%;
+        max-width: 96%;
+    }
+
+    .edit-modal .modal-header {
+        padding: 16px 18px;
+    }
+
+    .edit-modal form {
+        padding: 18px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+        margin-bottom: 6px;
     }
 
     .form-group input,
     .form-group textarea {
-        font-size: 16px; /* Prevents iOS zoom */
+        padding: 11px;
+        font-size: 16px;
+    }
+
+    .form-group small {
+        font-size: 11px;
+    }
+
+    .form-actions {
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn-cancel,
+    .btn-save {
+        padding: 11px;
+        font-size: 14px;
+    }
+
+    .settings-modal {
+        max-width: 92%;
+    }
+
+    .setting-item {
+        padding: 16px 20px;
+        font-size: 14px;
+    }
+
+    .setting-item i {
+        font-size: 16px;
     }
 }
