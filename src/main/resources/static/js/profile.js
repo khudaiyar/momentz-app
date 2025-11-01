@@ -261,14 +261,25 @@ editProfileBtn.addEventListener('click', () => {
     if (window.currentUserData) {
         document.getElementById('editUsername').value = window.currentUserData.username;
         document.getElementById('editEmail').value = window.currentUserData.email;
-        // Show current profile picture or selected one
+
+        // Reset profile picture input
         if (selectedProfilePicture) {
-            document.getElementById('editProfilePicture').value = 'Image selected from computer';
+            document.getElementById('editProfilePicture').value = 'Image uploaded from device';
             document.getElementById('editProfilePicture').disabled = true;
+            const previewDiv = document.getElementById('profilePicturePreview');
+            if (previewDiv) {
+                previewDiv.querySelector('img').src = selectedProfilePicture;
+                previewDiv.style.display = 'block';
+            }
         } else {
             document.getElementById('editProfilePicture').value = window.currentUserData.profilePicture || '';
             document.getElementById('editProfilePicture').disabled = false;
+            const previewDiv = document.getElementById('profilePicturePreview');
+            if (previewDiv) {
+                previewDiv.style.display = 'none';
+            }
         }
+
         document.getElementById('editFullName').value = window.currentUserData.fullName || '';
         document.getElementById('editBio').value = window.currentUserData.bio || '';
         document.getElementById('editWebsite').value = window.currentUserData.website || '';
@@ -280,6 +291,85 @@ editProfileBtn.addEventListener('click', () => {
 // Change photo button - Opens file picker
 changePhotoBtn.addEventListener('click', () => {
     profilePictureInput.click();
+});
+
+// NEW: Upload from device button in edit modal
+const uploadFromDeviceBtn = document.getElementById('uploadFromDevice');
+if (uploadFromDeviceBtn) {
+    uploadFromDeviceBtn.addEventListener('click', () => {
+        profilePictureInput.click();
+    });
+}
+
+// Update the file input handler to show preview
+profilePictureInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        // Check file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            showAlert('Image too large! Please choose an image under 5MB', 'error');
+            return;
+        }
+
+        // Check if it's an image
+        if (!file.type.startsWith('image/')) {
+            showAlert('Please select an image file', 'error');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            // Compress the image
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800;
+                const MAX_HEIGHT = 800;
+
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Compress to JPEG
+                selectedProfilePicture = canvas.toDataURL('image/jpeg', 0.8);
+
+                // Update preview in modal
+                const previewDiv = document.getElementById('profilePicturePreview');
+                if (previewDiv) {
+                    const previewImg = previewDiv.querySelector('img');
+                    previewImg.src = selectedProfilePicture;
+                    previewDiv.style.display = 'block';
+                }
+
+                // Update main profile picture preview
+                document.getElementById('profilePicture').src = selectedProfilePicture;
+
+                // Clear the URL input
+                document.getElementById('editProfilePicture').value = 'Image uploaded from device';
+                document.getElementById('editProfilePicture').disabled = true;
+
+                showAlert('Image uploaded! Click "Save Changes" to update your profile.');
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
 });
 
 // Bio character count
