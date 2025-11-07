@@ -85,6 +85,7 @@ public class WebSecurityConfig {
                                 "/home.html",           // ← Keep this PUBLIC
                                 "/profile.html",        // ← Keep this PUBLIC
                                 "/api/auth/**",         // Login & Register API
+                                "/supabase/**"
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
