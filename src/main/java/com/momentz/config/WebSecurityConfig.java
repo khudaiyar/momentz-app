@@ -82,10 +82,10 @@ public class WebSecurityConfig {
                                 "/",
                                 "/index.html",
                                 "/login.html",
-                                "/home.html",           // ← Keep this PUBLIC
-                                "/profile.html",        // ← Keep this PUBLIC
-                                "/api/auth/**",         // Login & Register API
-                                "/supabase/**"
+                                "/home.html",
+                                "/profile.html",
+                                "/api/auth/**",
+                                "/supabase/**",
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
@@ -97,6 +97,7 @@ public class WebSecurityConfig {
                                 "/*.txt",
                                 "/*.json"
                         ).permitAll()
+
 
                         // ALL API ENDPOINTS (except /api/auth/**) require JWT
                         .requestMatchers("/api/**").authenticated()
