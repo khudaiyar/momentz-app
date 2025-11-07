@@ -24,3 +24,7 @@ EXPOSE 8081
 
 # Start the app using the dynamic port
 CMD ["sh", "-c", "java -Dserver.port=$PORT -jar app.jar"]
+
+ENV DATABASE_URL=jdbc:postgresql://db.tuburlejceosztccijdk.supabase.co:5432/postgres
+ENV DB_USERNAME=postgres
+ENV DB_PASSWORD=your_password
