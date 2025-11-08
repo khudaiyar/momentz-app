@@ -1,4 +1,4 @@
-const API_URL = "https://momentz-iq45.onrender.com/api";
+const API_URL = "https://momentzz.onrender.com/api";
 
 
 console.log('Auth.js loaded - API URL:', API_URL);
