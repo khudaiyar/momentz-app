@@ -13,14 +13,17 @@ COPY src src
 # Make Maven wrapper executable
 RUN chmod +x mvnw
 
-# IMPORTANT: Clean everything first, then build
+# FORCE REBUILD - Add timestamp to break cache
+RUN echo "Build timestamp: $(date)" > build-info.txt
+
+# Clean and build - this will NOT be cached now
 RUN ./mvnw clean package -DskipTests
 
-# Copy the JAR with explicit name
+# Copy the JAR
 RUN mv target/momentz-app-1.0.0.jar app.jar
 
-# Expose dynamic port (Render provides $PORT)
+# Expose dynamic port
 EXPOSE 8081
 
-# Start app on dynamic port
+# Start app
 CMD ["sh", "-c", "java -Dserver.port=$PORT -jar app.jar"]
