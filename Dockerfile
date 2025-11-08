@@ -13,11 +13,11 @@ COPY src src
 # Make Maven wrapper executable
 RUN chmod +x mvnw
 
-# Build the project without tests
+# IMPORTANT: Clean everything first, then build
 RUN ./mvnw clean package -DskipTests
 
-# Copy the JAR to container root
-RUN cp target/*.jar app.jar
+# Copy the JAR with explicit name
+RUN mv target/momentz-app-1.0.0.jar app.jar
 
 # Expose dynamic port (Render provides $PORT)
 EXPOSE 8081
