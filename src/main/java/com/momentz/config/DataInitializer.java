@@ -27,6 +27,15 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // 🔍 DEBUG: Print environment variables
+        System.out.println("\n===========================================");
+        System.out.println("🔍 ENVIRONMENT VARIABLES CHECK:");
+        System.out.println("===========================================");
+        System.out.println("DATABASE_URL: " + System.getenv("DATABASE_URL"));
+        System.out.println("DB_USERNAME: " + System.getenv("DB_USERNAME"));
+        System.out.println("DB_PASSWORD: " + (System.getenv("DB_PASSWORD") != null ? "****SET****" : "NOT SET"));
+        System.out.println("===========================================\n");
+
         // Initialize roles
         if (roleRepository.count() == 0) {
             Role userRole = new Role();
@@ -72,9 +81,12 @@ public class DataInitializer implements CommandLineRunner {
         admin.setPassword(passwordEncoder.encode("NewStrongPassword123!"));
         userRepository.save(admin);
 
+        System.out.println("===========================================");
+        System.out.println("   ADMIN CREDENTIALS");
+        System.out.println("===========================================");
         System.out.println("  Username: " + admin.getUsername());
         System.out.println("  Password: NewStrongPassword123!");
-        System.out.println("\n===========================================");
+        System.out.println("===========================================");
         System.out.println("   DATABASE INITIALIZED SUCCESSFULLY!");
         System.out.println("===========================================\n");
     }
