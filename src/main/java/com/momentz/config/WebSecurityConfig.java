@@ -63,12 +63,12 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow both localhost (dev) and Render (production)
+        // Allow local dev + Render backend + Vercel frontend
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:*",
                 "http://127.0.0.1:*",
-                "https://momentzz.onrender.com",
-                "https://momentz.vercel.app"
+                "https://momentz-4l9o.onrender.com",
+                "https://momentz-frontend.vercel.app"
         ));
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -113,7 +113,7 @@ public class WebSecurityConfig {
                                 "/*.txt",
                                 "/*.json"
                         ).permitAll()
-                        // Other API endpoints need JWT
+                        // All other API endpoints require JWT
                         .requestMatchers("/api/**").authenticated()
                         // Everything else is public
                         .anyRequest().permitAll()
