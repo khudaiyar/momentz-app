@@ -35,6 +35,9 @@ public class WebSecurityConfig {
     @Autowired
     private AuthTokenFilter authTokenFilter;
 
+    // =======================
+    // Authentication Provider
+    // =======================
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -53,17 +56,25 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // =======================
+    // CORS Configuration
+    // =======================
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow ALL origins for now (you can restrict later)
-        config.setAllowedOriginPatterns(List.of("*"));
+        // Allow both localhost (dev) and Render (production)
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",
+                "http://127.0.0.1:*",
+                "https://momentzz.onrender.com",
+                "https://momentz.vercel.app"
+        ));
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
-        config.setAllowCredentials(false); // IMPORTANT: Must be false when using "*"
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With"));
+        config.setExposedHeaders(List.of("Authorization"));
+        config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -71,7 +82,9 @@ public class WebSecurityConfig {
         return source;
     }
 
-
+    // =======================
+    // Security Filter Chain
+    // =======================
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -89,7 +102,6 @@ public class WebSecurityConfig {
                                 "/home.html",
                                 "/profile.html",
                                 "/api/auth/**",
-                                "/supabase/**",
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
@@ -101,11 +113,8 @@ public class WebSecurityConfig {
                                 "/*.txt",
                                 "/*.json"
                         ).permitAll()
-
-
-                        // ALL API ENDPOINTS (except /api/auth/**) require JWT
+                        // Other API endpoints need JWT
                         .requestMatchers("/api/**").authenticated()
-
                         // Everything else is public
                         .anyRequest().permitAll()
                 );

@@ -13,10 +13,7 @@ COPY src src
 # Make Maven wrapper executable
 RUN chmod +x mvnw
 
-# IMPORTANT: Force cache break with timestamp
-RUN date > /tmp/build-timestamp.txt && cat /tmp/build-timestamp.txt
-
-# Clean and build application
+# Build application
 RUN ./mvnw clean package -DskipTests
 
 # Move JAR file
