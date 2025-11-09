@@ -35,6 +35,9 @@ public class WebSecurityConfig {
     @Autowired
     private AuthTokenFilter authTokenFilter;
 
+    // =======================
+    // Authentication Provider
+    // =======================
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -53,13 +56,24 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // =======================
+    // CORS Configuration
+    // =======================
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:*", "http://127.0.0.1:*"));
+
+        // Allow local dev + Render backend + Vercel frontend
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",
+                "http://127.0.0.1:*",
+                "https://momentz-4l9o.onrender.com",
+                "https://momentz-frontend.vercel.app"
+        ));
+
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With"));
-        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
+        config.setExposedHeaders(List.of("Authorization"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
@@ -68,6 +82,9 @@ public class WebSecurityConfig {
         return source;
     }
 
+    // =======================
+    // Security Filter Chain
+    // =======================
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -82,9 +99,9 @@ public class WebSecurityConfig {
                                 "/",
                                 "/index.html",
                                 "/login.html",
-                                "/home.html",           // ← Keep this PUBLIC
-                                "/profile.html",        // ← Keep this PUBLIC
-                                "/api/auth/**",         // Login & Register API
+                                "/home.html",
+                                "/profile.html",
+                                "/api/auth/**",
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
@@ -96,10 +113,8 @@ public class WebSecurityConfig {
                                 "/*.txt",
                                 "/*.json"
                         ).permitAll()
-
-                        // ALL API ENDPOINTS (except /api/auth/**) require JWT
+                        // All other API endpoints require JWT
                         .requestMatchers("/api/**").authenticated()
-
                         // Everything else is public
                         .anyRequest().permitAll()
                 );
