@@ -67,7 +67,7 @@ public class WebSecurityConfig {
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:*",
                 "http://127.0.0.1:*",
-                "https://momentz-4l9o.onrender.com",
+                "https://momentz-nrfh.onrender.com",
                 "https://momentz-frontend.vercel.app"
         ));
 
